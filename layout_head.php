@@ -47,5 +47,5 @@
     <div class="container">
  
         <div class="page-header">
-            <h1><a href="index.php"><?php echo isset($page_title) ? $page_title : "Pricelist - PHP CRUD"; ?></a></h1>
+            <h1><?php echo isset($page_title) ? $page_title : "Pricelist - PHP CRUD"; ?></h1>
         </div>
