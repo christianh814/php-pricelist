@@ -23,7 +23,7 @@ user@host$ cd ~/php-pricelist/
 user@host$ oc get pods -l appname=mysqlcrud
   NAME            READY     STATUS    RESTARTS   AGE
   mysql-1-9uctm   1/1       Running   0          30s
-  user@host$ oc rsync ./sql mysql-1-9uctm:/tmp/
+user@host$ oc rsync ./sql mysql-1-9uctm:/tmp/
   sending incremental file list
   sql/
   sql/createdb.sql
