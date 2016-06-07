@@ -37,7 +37,7 @@ user@host$ oc rsh mysql-1-9uctm
 
 Create your application using the following parameters
 ```
-user@host$ oc new-app --name=pricelist https://github.com/christianh814/php-pricelist
+user@host$ oc new-app --name=pricelist https://github.com/christianh814/php-pricelist -e MYSQL_USER=pricelist -e MYSQL_PASSWORD=pricelist -e MYSQL_DATABASE=pricelist
 user@host$ oc expose svc/pricelist
 ```
 
