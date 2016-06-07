@@ -75,6 +75,6 @@ $(document).ready(function() {
 	});
 });
 </script>
-
+<a href='index.php' class='btn btn-info pull-right margin-bottom-1em margin-right-1em'> <span class='glyphicon glyphicon-download'></span>Home</a>
 </body>
 </html>
