@@ -1,29 +1,21 @@
 <?php
-// include database connection
-include 'config/database.php';
+// check if value was posted
+if($_POST){
  
-try {
-     
-    // get record ID
-    // isset() is a PHP function used to verify if a value is there or not
-    $id=isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+    // include database and object file
+    include_once 'config/database.php';
  
-    // delete query
-    $query = "DELETE FROM products WHERE id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bindParam(1, $id);
-     
-    if($stmt->execute()){
-        // redirect to read records page and 
-        // tell the user record was deleted
-        header('Location: read.php?action=deleted');
-    }else{
-        die('Unable to delete record.');
-    }
-}
- 
-// show error
-catch(PDOException $exception){
-    die('ERROR: ' . $exception->getMessage());
+	// delete query
+	$query = "DELETE FROM products WHERE id = ?";
+	$stmt = $con->prepare($query);
+	$stmt->bindParam(1, $_POST['object_id']);
+	
+	if($stmt->execute()){
+		// redirect to read records page and 
+		// tell the user record was deleted
+		echo "Record was deleted.";
+	}else{
+		echo "Unable to delete record.";
+	}
 }
 ?>

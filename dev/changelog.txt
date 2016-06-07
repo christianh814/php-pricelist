@@ -1,0 +1,19 @@
+* v080320151
+-changed table from 'users' to 'products'
+-changed all fields for CRUD 
+-added 'category' select for create product
+-added 'category' select for update product
+-search by product name and description
+-pagination in search
+
+* v051920151
+- create a record
+- read records
+- update a record
+- delete a record
+- delete multiple records
+- search by name
+- export all records to CSV
+- pagination
+- allow users to enter page number
+- bootstrap UI

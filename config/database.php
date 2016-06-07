@@ -6,13 +6,14 @@ $username = getenv("MYSQL_USER");
 $password = getenv("MYSQL_PASSWORD");
 
 // $db_port = getenv("MYSQL_SERVICE_PORT");
- 
+
+
 try {
-    $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
+	$con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
 }
- 
-// show error
+
+// to handle connection error
 catch(PDOException $exception){
-    echo "Connection error: " . $exception->getMessage();
+	echo "Connection error: " . $exception->getMessage();
 }
 ?>
