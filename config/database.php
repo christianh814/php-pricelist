@@ -46,6 +46,8 @@ try {
 	INSERT INTO `categories` VALUES(3, 'Motors', '2014-06-01 00:35:07', '2014-05-31 09:34:54');
 	INSERT INTO `categories` VALUES(4, 'Miscellaneous', '2014-06-01 00:35:07', '2014-05-31 09:34:54');
 	";
+	$con->exec($sql);
+	echo "Table MyGuests created successfully";
 }
 
 // to handle connection error
