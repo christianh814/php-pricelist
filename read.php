@@ -9,7 +9,7 @@ include 'config/database.php';
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 // page header
-$page_title="Welcome To Pricelist";
+$page_title="Read Record";
 include_once "layout_head.php";
 
 // if it was redirected from delete.php
