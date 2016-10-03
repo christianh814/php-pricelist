@@ -19,7 +19,7 @@ NOTE:
 user@host$ oc new-app --name=mysql -l appname=mysqlcrud --template=mysql-ephemeral -p DATABASE_SERVICE_NAME=mysql,MYSQL_USER=pricelist,MYSQL_PASSWORD=pricelist,MYSQL_DATABASE=pricelist
 ```
 
-## Bootstrap the database 
+## Initialize the database 
 
 Copy over the `sql` dir from this repo using `oc rsync`
 ```
