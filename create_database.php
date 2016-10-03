@@ -39,7 +39,7 @@ try {
                 INSERT INTO `categories` VALUES(1, 'Fashion', '2014-06-01 00:35:07', '2014-05-31 09:34:33');
                 INSERT INTO `categories` VALUES(2, 'Electronics', '2014-06-01 00:35:07', '2014-05-31 09:34:33');
                 INSERT INTO `categories` VALUES(3, 'Motors', '2014-06-01 00:35:07', '2014-05-31 09:34:54');
-                INSERT INTO `categories` VALUES(4, 'Miscellaneous', '2014-06-01 00:35:07', '2014-05-31 09:34:54');"
+                INSERT INTO `categories` VALUES(4, 'Miscellaneous', '2014-06-01 00:35:07', '2014-05-31 09:34:54');";
 	$ndb = new PDO("mysql:host={$host};dbname={$db_name};port={$port}", $username, $password);
 	$ndb->exec($sql) or die (print_r($dbh->errorInfo(), true));
 }
