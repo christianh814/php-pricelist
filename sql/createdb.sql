@@ -17,9 +17,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
  
-INSERT INTO `products` VALUES(1, 'LG P880 4X HD', 'My first awesome phone!', 336, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `products` VALUES(2, 'Google Nexus 4', 'The most awesome phone of 2013!', 299, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `products` VALUES(3, 'Samsung Galaxy S4', 'How about no?', 600, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `products` VALUES(1, 'LG P880 4X HD', 'My first awesome phone!', 336, 3, '2014-06-01 01:12:26', '2014-05-31 10:12:21');
+INSERT INTO `products` VALUES(2, 'Google Nexus 4', 'The most awesome phone of 2013!', 299, 2, '2014-06-01 01:12:26', '2014-05-31 10:12:21');
+INSERT INTO `products` VALUES(3, 'Samsung Galaxy S4', 'How about no?', 600, 3, '2014-06-01 01:12:26', '2014-05-31 10:12:21');
 INSERT INTO `products` VALUES(6, 'Bench Shirt', 'The best shirt!', 29, 1, '2014-06-01 01:12:26', '2014-05-31 10:12:21');
 INSERT INTO `products` VALUES(7, 'Lenovo Laptop', 'My business partner.', 399, 2, '2014-06-01 01:13:45', '2014-05-31 10:13:39');
 INSERT INTO `products` VALUES(8, 'Samsung Galaxy Tab 10.1', 'Good tablet.', 259, 2, '2014-06-01 01:14:13', '2014-05-31 10:14:08');
