@@ -19,28 +19,6 @@ NOTE:
 user@host$ oc new-app --name=mysql -l appname=mysqlcrud --template=mysql-ephemeral -p DATABASE_SERVICE_NAME=mysql,MYSQL_USER=pricelist,MYSQL_PASSWORD=pricelist,MYSQL_DATABASE=pricelist
 ```
 
-## Initialize the database 
-
-Copy over the `sql` dir from this repo using `oc rsync`
-```
-user@host$ cd ~
-user@host$ git clone https://github.com/christianh814/php-pricelist
-user@host$ cd ~/php-pricelist/
-user@host$ oc get pods -l appname=mysqlcrud
-  NAME            READY     STATUS    RESTARTS   AGE
-  mysql-1-9uctm   1/1       Running   0          30s
-user@host$ oc rsync ./sql mysql-1-9uctm:/tmp/
-  sending incremental file list
-  sql/
-  sql/createdb.sql
-
-  sent 2669 bytes  received 35 bytes  1081.60 bytes/sec
-  total size is 2562  speedup is 0.95 
-user@host$ oc rsh mysql-1-9uctm 
-  sh-4.2$ mysql -u root pricelist < /tmp/sql/createdb.sql 
-  sh-4.2$ exit
-```
-
 ## Create your application
 
 Create your application using this repo; passing the parameters you used above
@@ -53,3 +31,12 @@ If you created the app before the DB you may have to inject these variables
 ```
 user@host$ oc env dc/pricelist MYSQL_USER=pricelist MYSQL_PASSWORD=pricelist MYSQL_DATABASE=pricelist
 ```
+## Initialize the database 
+
+Initialize the DB with a curl cummand
+
+```
+curl -k http://$(oc get route/php-pricelist -o jsonpath='{.spec.host}')/create_database.php
+```
+
+Where `route/php-pricelist` is what you named the app.
