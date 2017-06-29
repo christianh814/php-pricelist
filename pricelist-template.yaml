@@ -85,6 +85,7 @@ objects:
             - /bin/sh
             - -c
             - sleep 5 && curl -s http://localhost:8080/create_database.php
+          failurePolicy: ignore
         timeoutSeconds: 600
         updatePeriodSeconds: 1
       type: Rolling
