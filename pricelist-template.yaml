@@ -84,7 +84,7 @@ objects:
             command:
             - /bin/sh
             - -c
-            - sleep 5 && curl -s http://localhost:8080/create_database.php
+            - "sleep 5 && curl -s http://${APPLICATION_NAME}:8080/create_database.php"
             containerNames: ${APPLICATION_NAME}
           failurePolicy: Ignore
         timeoutSeconds: 600
