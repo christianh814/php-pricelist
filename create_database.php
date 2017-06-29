@@ -7,7 +7,7 @@ $username = getenv("MYSQL_USER");
 $password = getenv("MYSQL_PASSWORD");
 
 try {
-	$sql = "CREATE TABLE `products` (
+	$sql = "CREATE TABLE IF NOT EXISTS `products` (
                 `id` int(11) NOT NULL auto_increment,
                 `name` varchar(32) NOT NULL,
                 `description` text NOT NULL,
@@ -29,7 +29,7 @@ try {
                 INSERT INTO `products` VALUES(11, 'Huawei Y300', 'For testing purposes.', 100, 2, '2014-06-06 17:11:04', '2014-06-06 02:10:54');
                 INSERT INTO `products` VALUES(12, 'Abercrombie Lake Arnold Shirt', 'Perfect as gift!', 60, 1, '2014-06-06 17:12:21', '2014-06-06 02:12:11');
                 INSERT INTO `products` VALUES(13, 'Abercrombie Allen Brook Shirt', 'Cool red shirt!', 70, 1, '2014-06-06 17:12:59', '2014-06-06 02:12:49');
-                CREATE TABLE `categories` (
+                CREATE TABLE IF NOT EXISTS  `categories` (
                   `id` int(11) NOT NULL auto_increment,
                   `name` varchar(256) NOT NULL,
                   `created` datetime NOT NULL,
