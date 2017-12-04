@@ -2,7 +2,7 @@
 // Define configfile path
 $db_config_file = "/data/db.php";
 //
-if (file_exists($filename)) {
+if (file_exists($db_config_file)) {
 	// include config file if we have found it
 	require_once($db_config_file);
 	$using_config_file = "yes";
