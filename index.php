@@ -12,9 +12,11 @@ $action = isset($_GET['action']) ? $_GET['action'] : "";
 $page_title="Pricelist";
 include_once "layout_head.php";
 ?>
+<h2 class="pull-left">Please select an Action</h2>
 <a href='create.php' class='btn btn-primary pull-right margin-bottom-1em'>
 <span class='glyphicon glyphicon-plus'></span> Create Record
 </a>
+&nbsp;&nbsp;
 <a href='read.php' class='btn btn-primary pull-right margin-bottom-1em'>
         <span class='glyphicon glyphicon-list'></span> Read Records
 </a>
