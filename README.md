@@ -16,7 +16,9 @@ NOTE:
   * However; `DATABASE_SERVICE_NAME` must be kept as `mysql`
 
 ```
-user@host$ oc new-app --name=mysql -l appname=mysqlcrud --template=mysql-ephemeral -p DATABASE_SERVICE_NAME=mysql,MYSQL_USER=pricelist,MYSQL_PASSWORD=pricelist,MYSQL_DATABASE=pricelist
+user@host$ oc new-app --name=mysql -l appname=mysqlcrud --template=mysql-ephemeral \ 
+-p DATABASE_SERVICE_NAME=mysql -p MYSQL_USER=pricelist -p MYSQL_PASSWORD=pricelist -p MYSQL_DATABASE=pricelist
+
 ```
 
 ## Create your application
