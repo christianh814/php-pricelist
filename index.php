@@ -21,7 +21,7 @@ if($action=='deleted'){
 $page_url="index.php?";
 
 // include the read template
-include_once "read_template.php";
+include_once "index_template.php";
 
 // page footer
 include_once "layout_foot.php";
