@@ -1,0 +1,8 @@
+<?php
+// Example of one would look like
+$host = "mysql.myproject.svc";
+$port = 3306;
+$db_name = "pricelist";
+$username = "pricelist";
+$password = "pricelist";
+?>
