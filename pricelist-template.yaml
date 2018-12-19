@@ -5,6 +5,7 @@ labels:
 metadata:
   creationTimestamp: null
   name: pricelist-template
+  app: ${APPLICATION_NAME}
 objects:
 - apiVersion: v1
   kind: ImageStream
@@ -15,6 +16,7 @@ objects:
     generation: 1
     labels:
       tier: frontend
+      app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec: {}
   status:
@@ -27,6 +29,7 @@ objects:
     creationTimestamp: null
     labels:
       tier: frontend
+      app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     output:
@@ -67,12 +70,14 @@ objects:
     generation: 1
     labels:
       tier: frontend
+      app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     replicas: 1
     selector:
       deploymentconfig: ${APPLICATION_NAME}
       tier: frontend
+      app: ${APPLICATION_NAME}
     strategy:
       resources: {}
       rollingParams:
@@ -99,6 +104,7 @@ objects:
         labels:
           deploymentconfig: ${APPLICATION_NAME}
           tier: frontend
+          app: ${APPLICATION_NAME}
       spec:
         containers:
         - env:
@@ -158,12 +164,14 @@ objects:
     generation: 2
     labels:
       tier: database
+      app: ${APPLICATION_NAME}
     name: ${DATABASE_SERVICE_NAME}
   spec:
     replicas: 1
     selector:
       deploymentconfig: ${DATABASE_SERVICE_NAME}
       tier: database
+      app: ${APPLICATION_NAME}
     strategy:
       resources: {}
       rollingParams:
@@ -182,6 +190,7 @@ objects:
         labels:
           deploymentconfig: ${DATABASE_SERVICE_NAME}
           tier: database
+          app: ${APPLICATION_NAME}
       spec:
         containers:
         - env:
@@ -251,6 +260,7 @@ objects:
     creationTimestamp: null
     labels:
       tier: frontend
+      app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     ports:
@@ -261,6 +271,7 @@ objects:
     selector:
       deploymentconfig: ${APPLICATION_NAME}
       tier: frontend
+      app: ${APPLICATION_NAME}
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1
@@ -271,6 +282,7 @@ objects:
     creationTimestamp: null
     labels:
       tier: database
+      app: ${APPLICATION_NAME}
     name: ${DATABASE_SERVICE_NAME}
   spec:
     ports:
@@ -281,6 +293,7 @@ objects:
     selector:
       deploymentconfig: ${DATABASE_SERVICE_NAME}
       tier: database
+      app: ${APPLICATION_NAME}
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -293,6 +306,7 @@ objects:
     creationTimestamp: null
     labels:
       tier: frontend
+      app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     host: ${APPLICATION_DOMAIN}
