@@ -148,7 +148,7 @@ spec:
 
 __Database With StorageClass__
 
-If you do not want to use the default storageclass; you can set "dbstorageclass" to the name of the storageclass you'd like to use. (**NOTE**: You __**MUST**__ set `dbstorage` to `yes` as well!!)
+If you do not want to use the default storageclass; you can set `dbstorageclass` to the name of the storageclass you'd like to use. (**NOTE**: You __**MUST**__ set `dbstorage` to `yes` as well!!)
 
 ```yaml
 apiVersion: pricelist.chernand.io/v1alpha1
