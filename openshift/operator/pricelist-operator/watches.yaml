@@ -1,0 +1,5 @@
+---
+- version: v1alpha1
+  group: pricelist.chernand.io
+  kind: Pricelist
+  role: /opt/ansible/roles/pricelist

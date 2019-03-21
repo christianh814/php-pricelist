@@ -1,0 +1,6 @@
+---
+# defaults file for pricelist
+frontends: 1
+database: "pricelist"
+dbuser: "pricelist"
+dbpassword: "pricelist"

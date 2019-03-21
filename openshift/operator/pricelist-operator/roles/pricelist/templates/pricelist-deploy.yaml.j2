@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: "{{ meta.name }}-pricelist"
+    tier: frontend
+  name: "{{ meta.name }}-pricelist-frontend"
+  namespace: "{{ meta.namespace }}"
+spec:
+  replicas: "{{ frontends }}"
+  selector:
+    matchLabels:
+      app: "{{ meta.name }}-pricelist"
+      tier: frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: "{{ meta.name }}-pricelist"
+        tier: frontend
+    spec:
+      containers:
+      - image: quay.io/redhatworkshops/pricelist:latest
+        name: "{{ meta.name }}-pricelist-frontend"
+        resources: {}
+        env:
+        - name: MYSQL_DATABASE
+          value: "{{ database }}"
+        - name: MYSQL_PASSWORD
+          value: "{{ dbpassword }}"
+        - name: MYSQL_USER
+          value: "{{ dbuser }}"
+        - name: MYSQL_SERVICE_HOST
+          value: "{{ meta.name }}-pricelist-db-svc"
+        - name: MYSQL_SERVICE_PORT
+          value: "3306"

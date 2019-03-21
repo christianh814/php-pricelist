@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: "{{ meta.name }}-pricelist"
+    tier: database
+  name: "{{ meta.name }}-pricelist-db"
+  namespace: "{{ meta.namespace }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{ meta.name }}-pricelist"
+      tier: database
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: "{{ meta.name }}-pricelist"
+        tier: database
+    spec:
+      containers:
+      - image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
+        name: "{{ meta.name }}-pricelist-db"
+        env:
+        - name: MYSQL_DATABASE
+          value: "{{ database }}"
+        - name: MYSQL_PASSWORD
+          value: "{{ dbpassword }}"
+        - name: MYSQL_USER
+          value: "{{ dbuser }}"
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql/data
+          name: "{{ meta.name }}-pricelist-db-store"
+      volumes:
+      - name: "{{ meta.name }}-pricelist-db-store"
+        persistentVolumeClaim:
+          claimName: "{{ meta.name }}-db-pvc"
