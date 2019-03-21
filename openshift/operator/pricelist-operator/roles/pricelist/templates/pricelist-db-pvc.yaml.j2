@@ -4,6 +4,9 @@ metadata:
   name: "{{ meta.name }}-db-pvc"
   namespace: "{{ meta.namespace }}"
 spec:
+{% if dbstorageclass is defined %}
+  storageClassName: "{{ dbstorageclass }}"
+{% endif %}
   accessModes:
     - ReadWriteOnce
   resources:

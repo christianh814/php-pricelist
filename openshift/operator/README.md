@@ -17,7 +17,7 @@ In order to install this Operator you need user a user that has a cluster role o
 $ oc login -u system:admin
 ```
 
-This the Pricelist operator needs to be installed in a namespaces called `pricelist-operator`
+The Pricelist operator needs to be installed in a namespaces called `pricelist-operator`
 
 ```
 $ oc new-project pricelist-operator
@@ -69,7 +69,7 @@ $ oc new-project foobar
 $ oc project foobar
 ```
 
-Create the CR file. The only one required is how many frontends you'd like to deploy. Create a file called `pricelist.yaml` with the followingcontent (Please see [Advanced Features](#advanced-features) for more CR options)
+Create the CR file. The only one required is how many frontends you'd like to deploy. Create a file called `pricelist.yaml` with the following content (Please see [Advanced Features](#advanced-features) for more CR options)
 
 ```yaml
 apiVersion: pricelist.chernand.io/v1alpha1
@@ -110,7 +110,7 @@ $ firefox $(oc get route --no-headers | grep pricelist-frontend | awk '{print $2
 
 ## Advanced Features
 
-Here are some advanced features to handle the deployment (more will be added soon!)
+Here are some advanced features to customize the deployment of Pricelist (more will be added soon!)
 
 __Database Configuration__
 
@@ -143,6 +143,21 @@ spec:
   database: "pricelist"
   dbuser: "pricelist"
   dbpassword: "pricelist"
+  dbstorage: yes
+```
+
+__Database With StorageClass__
+
+If you do not want to use the default storageclass; you can set "dbstorageclass" to the name of the storageclass you'd like to use. (**NOTE**: You __**MUST**__ set `dbstorage` to `yes` as well!!)
+
+```yaml
+apiVersion: pricelist.chernand.io/v1alpha1
+kind: Pricelist
+metadata:
+  name: myexample
+spec:
+  frontends: 1
+  dbstorageclass: "glusterfs-storage-block"
   dbstorage: yes
 ```
 
