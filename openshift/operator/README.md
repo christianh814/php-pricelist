@@ -124,9 +124,9 @@ metadata:
   name: myexample
 spec:
   frontends: 1
-  database: "pricelist"
-  dbuser: "pricelist"
-  dbpassword: "pricelist"
+  database: "mydatabase"
+  dbuser: "mydbuser"
+  dbpassword: "mysecretpassword"
 ```
 
 __Database Storage__
@@ -140,9 +140,9 @@ metadata:
   name: myexample
 spec:
   frontends: 1
-  database: "pricelist"
-  dbuser: "pricelist"
-  dbpassword: "pricelist"
+  database: "mydatabase"
+  dbuser: "mydbuser"
+  dbpassword: "mysecretpassword"
   dbstorage: yes
 ```
 
