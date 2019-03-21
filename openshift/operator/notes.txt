@@ -1,6 +1,12 @@
 #### Create operator
 operator-sdk new pricelist-operator --type=ansible --api-version=pricelist.chernand.io/v1alpha1 --kind=Pricelist --skip-git-init {--cluster-scoped}
 
+Modify defaults/main.yml  for your default vars
+Add your playbooks/tasks in tasks/main.yml 
+
+I usually put k8s manifests as j2 templates in templates/
+
+
 #### Build in /home/chernand/Kubernetes/operators/pricelist-operator
 sudo operator-sdk build quay.io/redhatworkshops/pricelist-operator:latest
 docker push quay.io/redhatworkshops/pricelist-operator:latest
