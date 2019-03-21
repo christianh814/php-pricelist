@@ -4,28 +4,27 @@ metadata:
   creationTimestamp: null
   labels:
     app: "{{ meta.name }}-pricelist"
-    tier: frontend
-  name: "{{ meta.name }}-pricelist-frontend"
+    tier: database
+  name: "{{ meta.name }}-pricelist-db"
   namespace: "{{ meta.namespace }}"
 spec:
-  replicas: "{{ frontends }}"
+  replicas: 1
   selector:
     matchLabels:
       app: "{{ meta.name }}-pricelist"
-      tier: frontend
+      tier: database
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
         app: "{{ meta.name }}-pricelist"
-        tier: frontend
+        tier: database
     spec:
       containers:
-      - image: quay.io/redhatworkshops/pricelist:latest
+      - image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
         imagePullPolicy: IfNotPresent
-        name: "{{ meta.name }}-pricelist-frontend"
-        resources: {}
+        name: "{{ meta.name }}-pricelist-db"
         env:
         - name: MYSQL_DATABASE
           value: "{{ database }}"
@@ -33,7 +32,10 @@ spec:
           value: "{{ dbpassword }}"
         - name: MYSQL_USER
           value: "{{ dbuser }}"
-        - name: MYSQL_SERVICE_HOST
-          value: "{{ meta.name }}-pricelist-db-svc"
-        - name: MYSQL_SERVICE_PORT
-          value: "3306"
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql/data
+          name: "{{ meta.name }}-pricelist-db-store"
+      volumes:
+      - name: "{{ meta.name }}-pricelist-db-store"
+        emptyDir: {}

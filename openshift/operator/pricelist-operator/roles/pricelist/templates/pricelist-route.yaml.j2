@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app: "{{ meta.name }}-pricelist"
+    tier: frontend
+  name: "{{ meta.name }}-pricelist-frontend-svc"
+  namespace: "{{ meta.namespace }}"
+spec:
+  host: ""
+  port:
+    targetPort: 8080
+  to:
+    kind: ""
+    name: myexample-pricelist-frontend-svc
+    name: "{{ meta.name }}-pricelist-frontend-svc"
+    weight: null
+status:
+  ingress: null
