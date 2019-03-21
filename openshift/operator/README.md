@@ -157,8 +157,8 @@ metadata:
   name: myexample
 spec:
   frontends: 1
-  dbstorageclass: "glusterfs-storage-block"
   dbstorage: yes
+  dbstorageclass: "glusterfs-storage-block"
 ```
 
 __Scale Frontends__
