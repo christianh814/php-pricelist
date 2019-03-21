@@ -112,29 +112,6 @@ $ firefox $(oc get route --no-headers | grep pricelist-frontend | awk '{print $2
 
 Here are some advanced features to handle the deployment (more will be added soon!)
 
-__Scale Frontends__
-
-You cannot scale this app by "normal" means (since it's being managed by the operator). So in order to scale the frontend web app; just change the `frontends` in your CR definition. Fastest way is...
-
-```
-$ cat <<EOF | oc replace -f -
-apiVersion: pricelist.chernand.io/v1alpha1
-kind: Pricelist
-metadata:
-  name: myexample
-spec:
-  frontends: 2
-EOF
-```
-
-You can also just edit the CR as you would any normal resource
-
-```
-$ oc edit pricelist myexample
-```
-
-After a little bit you will see the application scale
-
 __Database Configuration__
 
 By default the database name, the database user, and database password, are set to `pricelist`. To change this; you can set `database`, `dbuser`, and `dbpassword` in your CR configuration
@@ -168,3 +145,26 @@ spec:
   dbpassword: "pricelist"
   dbstorage: yes
 ```
+
+__Scale Frontends__
+
+You cannot scale this app by "normal" means (since it's being managed by the operator). So in order to scale the frontend web app; just change the `frontends` in your CR definition. Fastest way is...
+
+```
+$ cat <<EOF | oc replace -f -
+apiVersion: pricelist.chernand.io/v1alpha1
+kind: Pricelist
+metadata:
+  name: myexample
+spec:
+  frontends: 2
+EOF
+```
+
+You can also just edit the CR as you would any normal resource
+
+```
+$ oc edit pricelist myexample
+```
+
+After a little bit you will see the application scale!
