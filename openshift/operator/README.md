@@ -56,7 +56,7 @@ This Operator is ready for action! Proceed to the [usage](#usage) section to dep
 
 ## Usage
 
-Any OpenShift user can down deploy Pricelist. First login to your OpenShift cluster
+Any OpenShift user can deploy Pricelist. First login to your OpenShift cluster
 
 ```
 $ oc login -u developer
