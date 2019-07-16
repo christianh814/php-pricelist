@@ -8,7 +8,7 @@ metadata:
   name: "{{ meta.name }}-pricelist-frontend"
   namespace: "{{ meta.namespace }}"
 spec:
-  replicas: "{{ frontends }}"
+  replicas: {{ frontends }}
   selector:
     matchLabels:
       app: "{{ meta.name }}-pricelist"
