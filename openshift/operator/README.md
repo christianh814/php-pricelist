@@ -28,7 +28,7 @@ oc create -f https://raw.githubusercontent.com/christianh814/php-pricelist/maste
 After a little bit the operator should be up and running
 
 ```
-$ oc get pods
+oc get pods
 NAME                                  READY     STATUS    RESTARTS   AGE
 pricelist-operator-5bd6f66485-998mt   2/2       Running   0          24s
 ```
@@ -40,14 +40,14 @@ This Operator is ready for action! Proceed to the [usage](#usage) section to dep
 Any OpenShift user can deploy Pricelist. First login to your OpenShift cluster
 
 ```
-$ oc login -u developer
+oc login -u developer
 ```
 
 If you don't have a project create one (you can use any project you have access to as well)
 
 ```
-$ oc new-project foobar
-$ oc project foobar
+oc new-project foobar
+oc project foobar
 ```
 
 Create the CR file. The only one required is how many frontends you'd like to deploy. Create a file called `pricelist.yaml` with the following content (Please see [Advanced Features](#advanced-features) for more CR options)
@@ -64,13 +64,13 @@ spec:
 After you have this file, create it in your namespace/project
 
 ```
-$ oc create -f pricelist.yaml
+oc create -f pricelist.yaml
 ```
 
 When the operator has finished deploying the app; you should have the following pods
 
 ```
-$ oc get pods
+oc get pods
 NAME                                            READY     STATUS      RESTARTS   AGE
 myexample-pricelist-db-6dcc8cb545-l9xjl         1/1       Running     0          2m
 myexample-pricelist-frontend-5d74856d9f-6hr8q   1/1       Running     0          2m
@@ -80,7 +80,7 @@ myexample-pricelist-postdeploy-ztwxx            0/1       Completed   0         
 You can list your deployments with the `oc get ...` command
 
 ```
-$ oc get pricelists
+oc get pricelists
 ```
 
 Pricelist is now ready to use! 
@@ -160,7 +160,7 @@ EOF
 You can also just edit the CR as you would any normal resource
 
 ```
-$ oc edit pricelist myexample
+oc edit pricelist myexample
 ```
 
 After a little bit you will see the application scale!
