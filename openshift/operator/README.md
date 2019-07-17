@@ -4,44 +4,25 @@ You can now deploy Pricelist as an operator on OpenShift (Work is being done to 
 
 ## Installation
 
-Everything you need to install is in this repo; so go ahead and clone it
-
-```
-$ git clone https://github.com/christianh814/php-pricelist
-$ cd php-pricelist/openshift/operator/pricelist-operator/
-```
-
 In order to install this Operator you need user a user that has a cluster role of `cluster-admin` (in this example I'm using `system:admin`), since we'll be installing a role, a rolebinding, and a CRD
 
 ```
-$ oc login -u system:admin
+oc login -u system:admin
 ```
 
 The Pricelist operator needs to be installed in a namespaces called `pricelist-operator`
 
 ```
-$ oc new-project pricelist-operator
-$ oc project pricelist-operator
+oc new-project pricelist-operator
+oc project pricelist-operator
 ```
 
-Fist, deploy the service account and the role/rolebindings needed
+The installation manifest has configuration for the [service acocunt](pricelist-operator/deploy/service_account.yaml), the [role](pricelist-operator/deploy/role.yaml), the [role binding](pricelist-operator/deploy/role_binding.yaml), the [custom resource definition](pricelist-operator/crds/pricelist_v1alpha1_pricelist_crd.yaml), and finally the [operator](pricelist-operator/deploy/operator.yaml) itself. 
+
+After inspecting these manifests, feel free to use the [installer manifest](install/pricelist-operator.yaml) to install this operator
 
 ```
-$ oc create -f deploy/service_account.yaml
-$ oc create -f deploy/role.yaml
-$ oc create -f deploy/role_binding.yaml
-```
-
-Next, create the CRD definition
-
-```
-$ oc create -f deploy/crds/pricelist_v1alpha1_pricelist_crd.yaml
-```
-
-Lastley, deploy the operator itself
-
-```
-$ oc create -f deploy/operator.yaml
+oc create -f https://raw.githubusercontent.com/christianh814/php-pricelist/master/openshift/operator/install/pricelist-operator.yaml -n pricelist-operator
 ```
 
 After a little bit the operator should be up and running
