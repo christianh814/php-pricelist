@@ -5,7 +5,7 @@ metadata:
   labels:
     app: "{{ meta.name }}-pricelist"
     tier: frontend
-  name: "{{ meta.name }}-pricelist-frontend-svc"
+  name: "{{ meta.name }}-pricelist"
   namespace: "{{ meta.namespace }}"
 spec:
   host: ""
@@ -13,7 +13,6 @@ spec:
     targetPort: 8080
   to:
     kind: ""
-    name: myexample-pricelist-frontend-svc
     name: "{{ meta.name }}-pricelist-frontend-svc"
     weight: null
 status:
