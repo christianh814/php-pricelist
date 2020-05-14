@@ -1,4 +1,4 @@
-# PHP Pircelist Sample App
+# PHP Pricelist Sample App
 
 ## Create a new project
 
