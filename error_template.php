@@ -26,7 +26,7 @@ echo "</div>";
 
 // Body of Index Page
 echo "<div class='alert alert-danger' role='alert'>";
-	echo "<p>Internal Server Error</p>"
+	echo "<p>Internal Server Error</p>";
 	echo "<br>";
 echo "</div>";
 ?>
