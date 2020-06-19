@@ -4,7 +4,7 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-db-pvc.yaml.j2') }}"
-  when: dbstorage is defined
+  when: dbstorage
 
 - name: Wait for pvc to get bound
   k8s_info:
@@ -21,13 +21,13 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-db.yaml.j2') }}"
-  when: dbstorage is defined
+  when: dbstorage
 
 - name: Create database deployment
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-db-ephemeral.yaml.j2') }}"
-  when: dbstorage is not defined
+  when: not dbstorage
 
 - name: Create database service
   k8s:

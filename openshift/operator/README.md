@@ -27,10 +27,10 @@ oc create -f https://raw.githubusercontent.com/christianh814/php-pricelist/maste
 
 After a little bit the operator should be up and running
 
-```
-oc get pods
-NAME                                  READY     STATUS    RESTARTS   AGE
-pricelist-operator-5bd6f66485-998mt   2/2       Running   0          24s
+```shell
+# oc get pods
+NAME                                  READY   STATUS    RESTARTS   AGE
+pricelist-operator-6d4fd645d8-7tpcj   1/1     Running   0          22
 ```
 
 This Operator is ready for action! Proceed to the [usage](#usage) section to deploy an instance of Pricelist
@@ -112,7 +112,7 @@ spec:
 
 __Database Storage__
 
-By default, the database uses `emptyDir` for storage; making the DB ephemeral. To have the operator deploy the DB with persistant storage, set the `dbstorage` variable to `yes`. (**NOTE** This assumes you have [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/) setup!)
+By default, the database uses `emptyDir` for storage; making the DB ephemeral. To have the operator deploy the DB with persistant storage, set the `dbstorage` variable to `true`. (**NOTE** This assumes you have [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/) setup!)
 
 ```yaml
 apiVersion: pricelist.cloud.chx/v1alpha1
@@ -124,12 +124,12 @@ spec:
   database: "mydatabase"
   dbuser: "mydbuser"
   dbpassword: "mysecretpassword"
-  dbstorage: yes
+  dbstorage: true
 ```
 
 __Database With StorageClass__
 
-If you do not want to use the default storageclass; you can set `dbstorageclass` to the name of the storageclass you'd like to use. (**NOTE**: You ___**MUST**___ set `dbstorage` to `yes` as well!!)
+If you do not want to use the default storageclass; you can set `dbstorageclass` to the name of the storageclass you'd like to use. (**NOTE**: You ___**MUST**___ set `dbstorage` to `true` as well!!)
 
 ```yaml
 apiVersion: pricelist.cloud.chx/v1alpha1
@@ -138,7 +138,7 @@ metadata:
   name: myexample
 spec:
   frontends: 1
-  dbstorage: yes
+  dbstorage: true
   dbstorageclass: "glusterfs-storage-block"
 ```
 
