@@ -57,10 +57,6 @@
     definition: "{{ lookup('template', 'pricelist-svc.yaml.j2') }}"
 
 - name: Wait for frontend to come up
-  pause:
-    seconds: 10
-
-- name: Wait for frontend to come up
   k8s_info:
     api_version: apps/v1
     kind: Deployment
