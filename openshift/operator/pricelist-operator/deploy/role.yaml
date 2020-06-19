@@ -25,6 +25,7 @@ rules:
   - watch
 - apiGroups:
   - apps
+  - batch
   resources:
   - deployments
   - daemonsets
@@ -47,6 +48,7 @@ rules:
   - create
 - apiGroups:
   - apps
+  - batch
   resourceNames:
   - pricelist-operator
   resources:
