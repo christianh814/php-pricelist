@@ -35,7 +35,7 @@
     state: present
     definition: "{{ lookup('template', 'pricelist-db-svc.yaml.j2') }}"
 
-- name: Wait for DB to come up
+- name: Wait for database to come up
   k8s_info:
     api_version: apps/v1
     kind: Deployment
@@ -75,13 +75,6 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-route.yaml.j2') }}"
-
-- name: Wait for the db connection to come up
-  wait_for:
-    host: "{{ meta.name }}-pricelist-db-svc"
-    port: 3306
-    delay: 10
-    timeout: 120
 
 - name: Create postrun job
   k8s:
