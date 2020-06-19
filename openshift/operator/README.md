@@ -1,6 +1,6 @@
 # Pricelist Operator
 
-You can now deploy Pricelist as an operator on OpenShift (Work is being done to "simplify" it so you can use it on "bare" Kubernetes too)
+You can now deploy Pricelist as an operator on OpenShift
 
 ## Installation
 
@@ -53,7 +53,7 @@ oc project foobar
 Create the CR file. The only one required is how many frontends you'd like to deploy. Create a file called `pricelist.yaml` with the following content (Please see [Advanced Features](#advanced-features) for more CR options)
 
 ```yaml
-apiVersion: pricelist.chernand.io/v1alpha1
+apiVersion: pricelist.cloud.chx/v1alpha1
 kind: Pricelist
 metadata:
   name: myexample
@@ -99,7 +99,7 @@ By default the database name, the database user, and database password, are set 
 
 
 ```yaml
-apiVersion: pricelist.chernand.io/v1alpha1
+apiVersion: pricelist.cloud.chx/v1alpha1
 kind: Pricelist
 metadata:
   name: myexample
@@ -115,7 +115,7 @@ __Database Storage__
 By default, the database uses `emptyDir` for storage; making the DB ephemeral. To have the operator deploy the DB with persistant storage, set the `dbstorage` variable to `yes`. (**NOTE** This assumes you have [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/) setup!)
 
 ```yaml
-apiVersion: pricelist.chernand.io/v1alpha1
+apiVersion: pricelist.cloud.chx/v1alpha1
 kind: Pricelist
 metadata:
   name: myexample
@@ -132,7 +132,7 @@ __Database With StorageClass__
 If you do not want to use the default storageclass; you can set `dbstorageclass` to the name of the storageclass you'd like to use. (**NOTE**: You ___**MUST**___ set `dbstorage` to `yes` as well!!)
 
 ```yaml
-apiVersion: pricelist.chernand.io/v1alpha1
+apiVersion: pricelist.cloud.chx/v1alpha1
 kind: Pricelist
 metadata:
   name: myexample
@@ -148,7 +148,7 @@ You cannot scale this app by "normal" means (since it's being managed by the ope
 
 ```
 $ cat <<EOF | oc replace -f -
-apiVersion: pricelist.chernand.io/v1alpha1
+apiVersion: pricelist.cloud.chx/v1alpha1
 kind: Pricelist
 metadata:
   name: myexample
@@ -164,3 +164,10 @@ oc edit pricelist myexample
 ```
 
 After a little bit you will see the application scale!
+
+## Known Issues
+
+These are a list of known issues
+
+* If you're using [WaitForFirstConsumer](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) this playbook will not work. This is because I'm waiting for the PVC to be bound before I continue. The workaround is to specify a storageclass that has `Immediate` as it's binding mode.
+

@@ -7,9 +7,15 @@
   when: dbstorage is defined
 
 - name: Wait for pvc to get bound
-  pause:
-    seconds: 15
-  when: dbstorage is defined
+  k8s_info:
+    api_version: v1
+    kind: PersistentVolumeClaim
+    name: "{{ meta.name }}-db-pvc"
+    namespace: "{{ meta.namespace }}"
+  register: dbpvc
+  until: dbpvc | json_query('resources[0].status.phase') == "Bound"
+  retries: 10
+  delay: 2
 
 - name: Create database deployment
   k8s:
@@ -23,14 +29,21 @@
     definition: "{{ lookup('template', 'pricelist-db-ephemeral.yaml.j2') }}"
   when: dbstorage is not defined
 
-- name: Wait for DB to come up
-  pause:
-    seconds: 15
-
 - name: Create database service
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-db-svc.yaml.j2') }}"
+
+- name: Wait for DB to come up
+  k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    name: "{{ meta.name }}-pricelist-db"
+    namespace: "{{ meta.namespace }}"
+  register: dbdeploy
+  until: dbdeploy | json_query('resources[0].status.readyReplicas') == 1
+  retries: 20
+  delay: 2
 
 - name: Create frontend deployment
   k8s:
@@ -46,10 +59,28 @@
   pause:
     seconds: 10
 
+- name: Wait for frontend to come up
+  k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    name: "{{ meta.name }}-pricelist-frontend"
+    namespace: "{{ meta.namespace }}"
+  register: fedeploy
+  until: fedeploy | json_query('resources[0].status.readyReplicas') == 1
+  retries: 20
+  delay: 2
+
 - name: Create frontend route
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-route.yaml.j2') }}"
+
+- name: Wait for the db connection to come up
+  wait_for:
+    host: "{{ meta.name }}-pricelist-db-svc"
+    port: 3306
+    delay: 10
+    timeout: 120
 
 - name: Create postrun job
   k8s:

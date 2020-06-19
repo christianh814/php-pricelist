@@ -9,35 +9,35 @@ rules:
   resources:
   - pods
   - services
+  - services/finalizers
   - endpoints
   - persistentvolumeclaims
   - events
   - configmaps
   - secrets
-  - jobs
-  - pricelists
-  - routes
   verbs:
-  - '*'
-- apiGroups:
-  - ""
-  resources:
-  - namespaces
-  verbs:
+  - create
+  - delete
   - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - apps
-  - batch
   resources:
   - deployments
   - daemonsets
   - replicasets
   - statefulsets
-  - jobs
-  - pricelists
-  - routes
   verbs:
-  - '*'
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - monitoring.coreos.com
   resources:
@@ -47,7 +47,6 @@ rules:
   - create
 - apiGroups:
   - apps
-  - batch
   resourceNames:
   - pricelist-operator
   resources:
@@ -55,11 +54,30 @@ rules:
   verbs:
   - update
 - apiGroups:
-  - pricelist.chernand.io
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - replicasets
+  - deployments
+  verbs:
+  - get
+- apiGroups:
+  - pricelist.cloud.chx
   resources:
   - '*'
   verbs:
-  - '*'
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - route.openshift.io
   resources:
@@ -82,8 +100,8 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
 - apiGroups:
-  - pricelist.chernand.io
+  - pricelist.cloud.chx
   resources:
-  - pricelists
+  - '*'
   verbs:
   - '*'

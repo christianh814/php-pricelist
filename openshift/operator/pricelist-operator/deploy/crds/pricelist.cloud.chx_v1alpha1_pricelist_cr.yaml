@@ -1,0 +1,7 @@
+apiVersion: pricelist.cloud.chx/v1alpha1
+kind: Pricelist
+metadata:
+  name: example-pricelist
+spec:
+  # Add fields here
+  size: 3
