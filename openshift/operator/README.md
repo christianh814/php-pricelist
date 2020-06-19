@@ -147,14 +147,7 @@ __Scale Frontends__
 You cannot scale this app by "normal" means (since it's being managed by the operator). So in order to scale the frontend web app; just change the `frontends` in your CR definition. Fastest way is...
 
 ```
-$ cat <<EOF | oc replace -f -
-apiVersion: pricelist.cloud.chx/v1alpha1
-kind: Pricelist
-metadata:
-  name: myexample
-spec:
-  frontends: 2
-EOF
+oc patch pricelist myexample --type=merge -p '{"spec":{"frontends":2}}'
 ```
 
 You can also just edit the CR as you would any normal resource
