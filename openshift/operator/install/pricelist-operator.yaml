@@ -1,7 +1,9 @@
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: pricelist-operator
+  namespace: pricelist-operator
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -14,22 +16,20 @@ rules:
   resources:
   - pods
   - services
+  - services/finalizers
   - endpoints
   - persistentvolumeclaims
   - events
   - configmaps
   - secrets
-  - jobs
-  - pricelists
-  - routes
   verbs:
-  - '*'
-- apiGroups:
-  - ""
-  resources:
-  - namespaces
-  verbs:
+  - create
+  - delete
   - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - apps
   - batch
@@ -38,11 +38,14 @@ rules:
   - daemonsets
   - replicasets
   - statefulsets
-  - jobs
-  - pricelists
-  - routes
   verbs:
-  - '*'
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - monitoring.coreos.com
   resources:
@@ -60,11 +63,30 @@ rules:
   verbs:
   - update
 - apiGroups:
-  - pricelist.chernand.io
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - replicasets
+  - deployments
+  verbs:
+  - get
+- apiGroups:
+  - pricelist.cloud.chx
   resources:
   - '*'
   verbs:
-  - '*'
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - route.openshift.io
   resources:
@@ -87,14 +109,14 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
 - apiGroups:
-  - pricelist.chernand.io
+  - pricelist.cloud.chx
   resources:
-  - pricelists
+  - '*'
   verbs:
   - '*'
 ---
-kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
   name: pricelist-operator
 subjects:
@@ -106,30 +128,34 @@ roleRef:
   name: pricelist-operator
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: pricelists.pricelist.chernand.io
+  name: pricelists.pricelist.cloud.chx
 spec:
-  group: pricelist.chernand.io
+  group: pricelist.cloud.chx
   names:
     kind: Pricelist
     listKind: PricelistList
     plural: pricelists
     singular: pricelist
   scope: Namespaced
-  subresources:
-    status: {}
-  version: v1alpha1
   versions:
   - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
     served: true
     storage: true
+    subresources:
+      status: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pricelist-operator
+  namespace: pricelist-operator
 spec:
   replicas: 1
   selector:
@@ -142,22 +168,9 @@ spec:
     spec:
       serviceAccountName: pricelist-operator
       containers:
-        - name: ansible
-          command:
-          - /usr/local/bin/ao-logs
-          - /tmp/ansible-operator/runner
-          - stdout
-          # Replace this with the built image name
+        - name: pricelist-operator
           image: quay.io/redhatworkshops/pricelist-operator:latest
-          imagePullPolicy: Always
-          volumeMounts:
-          - mountPath: /tmp/ansible-operator/runner
-            name: runner
-            readOnly: true
-        - name: operator
-          # Replace this with the built image name
-          image: quay.io/redhatworkshops/pricelist-operator:latest
-          imagePullPolicy: Always
+          imagePullPolicy: "Always"
           volumeMounts:
           - mountPath: /tmp/ansible-operator/runner
             name: runner
@@ -170,7 +183,18 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
               value: "pricelist-operator"
+            - name: ANSIBLE_GATHERING
+              value: explicit
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 6789
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
       volumes:
         - name: runner
           emptyDir: {}
----
+...

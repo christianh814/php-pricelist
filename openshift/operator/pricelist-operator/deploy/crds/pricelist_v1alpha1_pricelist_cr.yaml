@@ -1,9 +1,0 @@
-apiVersion: pricelist.chernand.io/v1alpha1
-kind: Pricelist
-metadata:
-  name: myexample
-spec:
-  frontends: 1
-  database: "pricelist"
-  dbuser: "pricelist"
-  dbpassword: "pricelist"

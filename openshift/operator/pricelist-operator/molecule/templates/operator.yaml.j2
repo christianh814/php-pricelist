@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pricelist-operator
-  namespace: pricelist-operator
 spec:
   replicas: 1
   selector:
@@ -17,14 +16,17 @@ spec:
       serviceAccountName: pricelist-operator
       containers:
         - name: pricelist-operator
-          image: quay.io/redhatworkshops/pricelist-operator:latest
-          imagePullPolicy: "Always"
+          # Replace this with the built image name
+          image: "{{ image }}"
+          imagePullPolicy: "{{ pull_policy }}"
           volumeMounts:
           - mountPath: /tmp/ansible-operator/runner
             name: runner
           env:
             - name: WATCH_NAMESPACE
-              value: ""
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -37,11 +39,9 @@ spec:
             httpGet:
               path: /healthz
               port: 6789
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 3
+
       volumes:
         - name: runner
           emptyDir: {}

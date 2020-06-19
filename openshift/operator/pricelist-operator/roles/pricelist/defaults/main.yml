@@ -4,3 +4,4 @@ frontends: 1
 database: "pricelist"
 dbuser: "pricelist"
 dbpassword: "pricelist"
+dbstorage: false
