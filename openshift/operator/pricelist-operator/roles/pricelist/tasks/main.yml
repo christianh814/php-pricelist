@@ -16,6 +16,7 @@
   until: dbpvc | json_query('resources[0].status.phase') == "Bound"
   retries: 10
   delay: 2
+  when: dbstorage
 
 - name: Create database deployment
   k8s:
