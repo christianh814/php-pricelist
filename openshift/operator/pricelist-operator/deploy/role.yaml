@@ -15,6 +15,7 @@ rules:
   - events
   - configmaps
   - secrets
+  - jobs
   verbs:
   - create
   - delete
@@ -31,6 +32,7 @@ rules:
   - daemonsets
   - replicasets
   - statefulsets
+  - jobs
   verbs:
   - create
   - delete
