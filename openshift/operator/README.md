@@ -17,7 +17,7 @@ oc new-project pricelist-operator
 oc project pricelist-operator
 ```
 
-The installation manifest has configuration for the [service acocunt](pricelist-operator/deploy/service_account.yaml), the [role](pricelist-operator/deploy/role.yaml), the [role binding](pricelist-operator/deploy/role_binding.yaml), the [custom resource definition](pricelist-operator/crds/pricelist.cloud.chx_v1alpha1_pricelist_cr.yaml), and finally the [operator](pricelist-operator/deploy/operator.yaml) itself. 
+The installation manifest has configuration for the [service acocunt](pricelist-operator/deploy/service_account.yaml), the [role](pricelist-operator/deploy/role.yaml), the [role binding](pricelist-operator/deploy/role_binding.yaml), the [custom resource definition](pricelist-operator/deploy/crds/pricelist.cloud.chx_v1alpha1_pricelist_cr.yaml), and finally the [operator](pricelist-operator/deploy/operator.yaml) itself. 
 
 After inspecting these manifests, feel free to use the [installer manifest](install/pricelist-operator.yaml) to install this operator
 
