@@ -41,3 +41,7 @@ curl -k http://$(oc get route/php-pricelist -o jsonpath='{.spec.host}')/create_d
 ```
 
 Where `route/php-pricelist` is what you named the app.
+
+## Operator
+
+If you're just interested in running this app without building it, you may want to take a look at [the operator](openshift/operator)
