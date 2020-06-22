@@ -1,5 +1,15 @@
 ---
 # tasks file for pricelist
+- name: Create secret with db credentials
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'pricelist-secret.yaml.j2') }}"
+
+- name: Create configmap with db configuration for the frontend
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'pricelist-cm.yaml.j2') }}"
+
 - name: Create database storage
   k8s:
     state: present

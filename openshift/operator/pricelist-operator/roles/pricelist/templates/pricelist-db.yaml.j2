@@ -27,11 +27,20 @@ spec:
         name: "{{ meta.name }}-pricelist-db"
         env:
         - name: MYSQL_DATABASE
-          value: "{{ database }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ meta.name }}-pricelist-creds"
+              key: database
         - name: MYSQL_PASSWORD
-          value: "{{ dbpassword }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ meta.name }}-pricelist-creds"
+              key: dbpassword
         - name: MYSQL_USER
-          value: "{{ dbuser }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ meta.name }}-pricelist-creds"
+              key: dbuser
         resources: {}
         volumeMounts:
         - mountPath: /var/lib/mysql/data

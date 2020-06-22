@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: "{{ meta.name }}-pricelist"
+  name: "{{ meta.name }}-pricelist-cm"
+  namespace: "{{ meta.namespace }}"
+data:
+  db.php: |-
+    <?php
+    $host = "{{ meta.name }}-pricelist-db-svc";
+    $port = 3306;
+    $db_name = file_get_contents("/etc/pricelist/creds/database");
+    $username = file_get_contents("/etc/pricelist/creds/dbuser");
+    $password = file_get_contents("/etc/pricelist/creds/dbpassword");
+    ?>

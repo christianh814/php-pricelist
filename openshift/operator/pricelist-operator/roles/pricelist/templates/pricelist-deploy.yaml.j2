@@ -26,14 +26,15 @@ spec:
         imagePullPolicy: IfNotPresent
         name: "{{ meta.name }}-pricelist-frontend"
         resources: {}
-        env:
-        - name: MYSQL_DATABASE
-          value: "{{ database }}"
-        - name: MYSQL_PASSWORD
-          value: "{{ dbpassword }}"
-        - name: MYSQL_USER
-          value: "{{ dbuser }}"
-        - name: MYSQL_SERVICE_HOST
-          value: "{{ meta.name }}-pricelist-db-svc"
-        - name: MYSQL_SERVICE_PORT
-          value: "3306"
+        volumeMounts:
+        - mountPath: /etc/pricelist/creds
+          name: "{{ meta.name }}-pricelist-creds-store"
+        - mountPath: /data
+          name: "{{ meta.name }}-pricelist-db-conf"
+      volumes:
+      - name: "{{ meta.name }}-pricelist-creds-store"
+        secret:
+          secretName: "{{ meta.name }}-pricelist-creds"
+      - name: "{{ meta.name }}-pricelist-db-conf"
+        configMap:
+          name: "{{ meta.name }}-pricelist-cm"
