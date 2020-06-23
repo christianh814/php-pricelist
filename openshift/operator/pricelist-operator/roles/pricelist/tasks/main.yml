@@ -73,7 +73,7 @@
     name: "{{ meta.name }}-pricelist-frontend"
     namespace: "{{ meta.namespace }}"
   register: fedeploy
-  until: fedeploy | json_query('resources[0].status.readyReplicas') == 1
+  until: fedeploy | json_query('resources[0].status.readyReplicas') == {{ frontends }}
   retries: 20
   delay: 2
 
