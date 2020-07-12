@@ -10,9 +10,11 @@ spec:
     spec:
       containers:
       - command:
-        - curl
-        - -s
-        - http://pricelist:8080/create_database.php
+        - /bin/bash
+        - -c
+        - |
+          until [ $(curl -s -o /dev/null -w "%{http_code}" "http://pricelist:8080") -eq 200 ]; do sleep 5; done
+          curl -s http://pricelist:8080/create_database.php
         image: quay.io/redhatworkshops/pricelist:latest
         name: pricelist-postdeploy
         resources: {}
