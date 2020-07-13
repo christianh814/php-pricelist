@@ -162,5 +162,5 @@ After a little bit you will see the application scale!
 
 These are a list of known issues
 
-* You cannot scale the MySQL currently.
+* You cannot scale the MySQL DB.
 
