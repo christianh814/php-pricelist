@@ -16,18 +16,6 @@
     definition: "{{ lookup('template', 'pricelist-db-pvc.yaml.j2') }}"
   when: dbstorage
 
-- name: Wait for pvc to get bound
-  k8s_info:
-    api_version: v1
-    kind: PersistentVolumeClaim
-    name: "{{ meta.name }}-db-pvc"
-    namespace: "{{ meta.namespace }}"
-  register: dbpvc
-  until: dbpvc | json_query('resources[0].status.phase') == "Bound"
-  retries: 10
-  delay: 2
-  when: dbstorage
-
 - name: Create database deployment
   k8s:
     state: present
@@ -44,6 +32,18 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'pricelist-db-svc.yaml.j2') }}"
+
+- name: Wait for pvc to get bound
+  k8s_info:
+    api_version: v1
+    kind: PersistentVolumeClaim
+    name: "{{ meta.name }}-db-pvc"
+    namespace: "{{ meta.namespace }}"
+  register: dbpvc
+  until: dbpvc | json_query('resources[0].status.phase') == "Bound"
+  retries: 10
+  delay: 2
+  when: dbstorage
 
 - name: Wait for database to come up
   k8s_info:

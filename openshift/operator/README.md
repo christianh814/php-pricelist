@@ -162,5 +162,5 @@ After a little bit you will see the application scale!
 
 These are a list of known issues
 
-* If you're using [WaitForFirstConsumer](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) this playbook will not work. This is because I'm waiting for the PVC to be bound before I continue. The workaround is to specify a storageclass that has `Immediate` as it's binding mode.
+* You cannot scale the MySQL currently.
 
