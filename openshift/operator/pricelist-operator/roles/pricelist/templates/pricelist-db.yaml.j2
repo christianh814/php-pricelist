@@ -24,6 +24,26 @@ spec:
       containers:
       - image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 3306
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - |
+              mysql -u root -e "SELECT 1"
+          failureThreshold: 5
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
         name: "{{ meta.name }}-pricelist-db"
         env:
         - name: MYSQL_DATABASE
