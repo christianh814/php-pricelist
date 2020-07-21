@@ -22,9 +22,7 @@ if($_POST){
 		//in this case, it seemed like we have so many fields to pass and
 		//its kinda better if we'll label them and not use question marks
 		//like what we used here
-		$query = "UPDATE products
-					SET name=:name, description=:description, price=:price, category_id=:category_id
-					WHERE id=:id";
+		$query = "UPDATE products SET name=:name, description=:description, price=:price, category_id=:category_id WHERE id=:id";
 
 		//prepare query for excecution
 		$stmt = $con->prepare($query);
