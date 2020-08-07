@@ -46,5 +46,6 @@ try {
 // to handle connection error
 catch(PDOException $exception){
 	echo "DB Error: " . $exception->getMessage();
+	http_response_code(500);
 }
 ?>
