@@ -1,28 +1,91 @@
----
 apiVersion: v1
-kind: ServiceAccount
+kind: Namespace
 metadata:
-  name: pricelist-operator
-  namespace: pricelist-operator
+  labels:
+    control-plane: controller-manager
+  name: pricelist-operator-system
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: pricelists.pricelist.cloud.chx
+spec:
+  group: pricelist.cloud.chx
+  names:
+    kind: Pricelist
+    listKind: PricelistList
+    plural: pricelists
+    singular: pricelist
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Pricelist is the Schema for the pricelists API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec defines the desired state of Pricelist
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            description: Status defines the observed state of Pricelist
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
-  creationTimestamp: null
-  name: pricelist-operator
+  name: pricelist-operator-leader-election-role
+  namespace: pricelist-operator-system
 rules:
 - apiGroups:
   - ""
   resources:
-  - pods
-  - services
-  - services/finalizers
-  - endpoints
-  - persistentvolumeclaims
-  - events
   - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pricelist-operator-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  - configmaps
+  - persistentvolumeclaims
   - secrets
-  - jobs
+  - pods
+  - pods/exec
+  - pods/log
   verbs:
   - create
   - delete
@@ -33,13 +96,11 @@ rules:
   - watch
 - apiGroups:
   - apps
-  - batch
   resources:
   - deployments
   - daemonsets
   - replicasets
   - statefulsets
-  - jobs
   verbs:
   - create
   - delete
@@ -49,38 +110,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - monitoring.coreos.com
-  resources:
-  - servicemonitors
-  verbs:
-  - get
-  - create
-- apiGroups:
-  - apps
   - batch
-  resourceNames:
-  - pricelist-operator
   resources:
-  - deployments/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - get
-- apiGroups:
-  - apps
-  resources:
-  - replicasets
-  - deployments
-  verbs:
-  - get
-- apiGroups:
-  - pricelist.cloud.chx
-  resources:
-  - '*'
+  - jobs
   verbs:
   - create
   - delete
@@ -101,14 +133,27 @@ rules:
   - list
   - watch
   - patch
+- apiGroups:
+  - pricelist.cloud.chx
+  resources:
+  - pricelists
+  - pricelists/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
-  name: pricelist-operator-user
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
+  name: pricelist-operator-pricelist-operator-user
 rules:
 - apiGroups:
   - pricelist.cloud.chx
@@ -118,85 +163,120 @@ rules:
   - '*'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: ClusterRole
 metadata:
-  name: pricelist-operator
+  name: pricelist-operator-proxy-role
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: pricelist-operator-metrics-reader
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pricelist-operator-leader-election-rolebinding
+  namespace: pricelist-operator-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pricelist-operator-leader-election-role
 subjects:
 - kind: ServiceAccount
-  name: pricelist-operator
-  namespace: pricelist-operator
-roleRef:
-  kind: ClusterRole
-  name: pricelist-operator
-  apiGroup: rbac.authorization.k8s.io
+  name: default
+  namespace: pricelist-operator-system
 ---
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
-  name: pricelists.pricelist.cloud.chx
+  name: pricelist-operator-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pricelist-operator-manager-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: pricelist-operator-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pricelist-operator-proxy-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pricelist-operator-proxy-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: pricelist-operator-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: pricelist-operator-controller-manager-metrics-service
+  namespace: pricelist-operator-system
 spec:
-  group: pricelist.cloud.chx
-  names:
-    kind: Pricelist
-    listKind: PricelistList
-    plural: pricelists
-    singular: pricelist
-  scope: Namespaced
-  versions:
-  - name: v1alpha1
-    schema:
-      openAPIV3Schema:
-        type: object
-        x-kubernetes-preserve-unknown-fields: true
-    served: true
-    storage: true
-    subresources:
-      status: {}
+  ports:
+  - name: https
+    port: 8443
+    targetPort: https
+  selector:
+    control-plane: controller-manager
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pricelist-operator
-  namespace: pricelist-operator
+  labels:
+    control-plane: controller-manager
+  name: pricelist-operator-controller-manager
+  namespace: pricelist-operator-system
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: pricelist-operator
+      control-plane: controller-manager
   template:
     metadata:
       labels:
-        name: pricelist-operator
+        control-plane: controller-manager
     spec:
-      serviceAccountName: pricelist-operator
       containers:
-        - name: pricelist-operator
-          image: quay.io/redhatworkshops/pricelist-operator:latest
-          imagePullPolicy: "Always"
-          volumeMounts:
-          - mountPath: /tmp/ansible-operator/runner
-            name: runner
-          env:
-            - name: WATCH_NAMESPACE
-              value: ""
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: OPERATOR_NAME
-              value: "pricelist-operator"
-            - name: ANSIBLE_GATHERING
-              value: explicit
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 6789
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-      volumes:
-        - name: runner
-          emptyDir: {}
-...
+      - args:
+        - --metrics-addr=127.0.0.1:8080
+        - --enable-leader-election
+        - --leader-election-id=pricelist-operator
+        image: quay.io/redhatworkshops/pricelist-operator:latest
+        name: manager
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+      terminationGracePeriodSeconds: 10

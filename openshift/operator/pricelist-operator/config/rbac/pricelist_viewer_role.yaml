@@ -1,0 +1,20 @@
+# permissions for end users to view pricelists.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pricelist-viewer-role
+rules:
+- apiGroups:
+  - pricelist.cloud.chx
+  resources:
+  - pricelists
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - pricelist.cloud.chx
+  resources:
+  - pricelists/status
+  verbs:
+  - get

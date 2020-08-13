@@ -3,17 +3,17 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: "{{ meta.name }}-pricelist"
+    app: "{{ ansible_operator_meta.name }}-pricelist"
     tier: database
-  name: "{{ meta.name }}-pricelist-db-svc"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-pricelist-db-svc"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
   ports:
   - port: 3306
     protocol: TCP
     targetPort: 3306
   selector:
-    app: "{{ meta.name }}-pricelist"
+    app: "{{ ansible_operator_meta.name }}-pricelist"
     tier: database
 status:
   loadBalancer: {}

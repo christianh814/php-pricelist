@@ -1,0 +1,24 @@
+# permissions for end users to edit pricelists.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pricelist-editor-role
+rules:
+- apiGroups:
+  - pricelist.cloud.chx
+  resources:
+  - pricelists
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pricelist.cloud.chx
+  resources:
+  - pricelists/status
+  verbs:
+  - get

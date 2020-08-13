@@ -2,8 +2,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   creationTimestamp: null
-  name: "{{ meta.name }}-pricelist-postdeploy"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-pricelist-postdeploy"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
   template:
     metadata:
@@ -14,8 +14,8 @@ spec:
         - /bin/bash
         - -c
         - |
-          until [ $(curl -s -o /dev/null -w {% raw %} "%{http_code}" {% endraw %} "http://{{ meta.name }}-pricelist-frontend-svc:8080/create_database.php") -eq 200 ]; do sleep 5; done
-          curl -s "http://{{ meta.name }}-pricelist-frontend-svc:8080/create_database.php"
+          until [ $(curl -s -o /dev/null -w {% raw %} "%{http_code}" {% endraw %} "http://{{ ansible_operator_meta.name }}-pricelist-frontend-svc:8080/create_database.php") -eq 200 ]; do sleep 5; done
+          curl -s "http://{{ ansible_operator_meta.name }}-pricelist-frontend-svc:8080/create_database.php"
         image: quay.io/redhatworkshops/pricelist:latest
         name: pricelist-postdeploy
         resources: {}

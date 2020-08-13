@@ -3,22 +3,22 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: "{{ meta.name }}-pricelist"
+    app: "{{ ansible_operator_meta.name }}-pricelist"
     tier: frontend
-  name: "{{ meta.name }}-pricelist-frontend"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-pricelist-frontend"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
   replicas: {{ frontends }}
   selector:
     matchLabels:
-      app: "{{ meta.name }}-pricelist"
+      app: "{{ ansible_operator_meta.name }}-pricelist"
       tier: frontend
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: "{{ meta.name }}-pricelist"
+        app: "{{ ansible_operator_meta.name }}-pricelist"
         tier: frontend
     spec:
       containers:
@@ -44,17 +44,17 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
-        name: "{{ meta.name }}-pricelist-frontend"
+        name: "{{ ansible_operator_meta.name }}-pricelist-frontend"
         resources: {}
         volumeMounts:
         - mountPath: /etc/pricelist/creds
-          name: "{{ meta.name }}-pricelist-creds-store"
+          name: "{{ ansible_operator_meta.name }}-pricelist-creds-store"
         - mountPath: /data
-          name: "{{ meta.name }}-pricelist-db-conf"
+          name: "{{ ansible_operator_meta.name }}-pricelist-db-conf"
       volumes:
-      - name: "{{ meta.name }}-pricelist-creds-store"
+      - name: "{{ ansible_operator_meta.name }}-pricelist-creds-store"
         secret:
-          secretName: "{{ meta.name }}-pricelist-creds"
-      - name: "{{ meta.name }}-pricelist-db-conf"
+          secretName: "{{ ansible_operator_meta.name }}-pricelist-creds"
+      - name: "{{ ansible_operator_meta.name }}-pricelist-db-conf"
         configMap:
-          name: "{{ meta.name }}-pricelist-cm"
+          name: "{{ ansible_operator_meta.name }}-pricelist-cm"

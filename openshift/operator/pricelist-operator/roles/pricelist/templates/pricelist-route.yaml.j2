@@ -3,17 +3,17 @@ kind: Route
 metadata:
   creationTimestamp: null
   labels:
-    app: "{{ meta.name }}-pricelist"
+    app: "{{ ansible_operator_meta.name }}-pricelist"
     tier: frontend
-  name: "{{ meta.name }}-pricelist"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-pricelist"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
   host: ""
   port:
     targetPort: 8080
   to:
     kind: ""
-    name: "{{ meta.name }}-pricelist-frontend-svc"
+    name: "{{ ansible_operator_meta.name }}-pricelist-frontend-svc"
     weight: null
 status:
   ingress: null
