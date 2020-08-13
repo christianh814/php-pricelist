@@ -1,5 +1,5 @@
 ---
-# defaults file for pricelist
+# defaults file for Pricelist
 frontends: 1
 database: "pricelist"
 dbuser: "pricelist"

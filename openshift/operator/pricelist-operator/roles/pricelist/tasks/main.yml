@@ -1,5 +1,5 @@
 ---
-# tasks file for pricelist
+# tasks file for Pricelist
 - name: Create secret with db credentials
   k8s:
     state: present
@@ -37,8 +37,8 @@
   k8s_info:
     api_version: v1
     kind: PersistentVolumeClaim
-    name: "{{ meta.name }}-db-pvc"
-    namespace: "{{ meta.namespace }}"
+    name: "{{ ansible_operator_meta.name }}-db-pvc"
+    namespace: "{{ ansible_operator_meta.namespace }}"
   register: dbpvc
   until: dbpvc | json_query('resources[0].status.phase') == "Bound"
   retries: 10
@@ -49,8 +49,8 @@
   k8s_info:
     api_version: apps/v1
     kind: Deployment
-    name: "{{ meta.name }}-pricelist-db"
-    namespace: "{{ meta.namespace }}"
+    name: "{{ ansible_operator_meta.name }}-pricelist-db"
+    namespace: "{{ ansible_operator_meta.namespace }}"
   register: dbdeploy
   until: dbdeploy | json_query('resources[0].status.readyReplicas') == 1
   retries: 20
@@ -70,8 +70,8 @@
   k8s_info:
     api_version: apps/v1
     kind: Deployment
-    name: "{{ meta.name }}-pricelist-frontend"
-    namespace: "{{ meta.namespace }}"
+    name: "{{ ansible_operator_meta.name }}-pricelist-frontend"
+    namespace: "{{ ansible_operator_meta.namespace }}"
   register: fedeploy
   until: fedeploy | json_query('resources[0].status.readyReplicas') == {{ frontends }}
   retries: 20

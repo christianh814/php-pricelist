@@ -3,22 +3,22 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: "{{ meta.name }}-pricelist"
+    app: "{{ ansible_operator_meta.name }}-pricelist"
     tier: database
-  name: "{{ meta.name }}-pricelist-db"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-pricelist-db"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "{{ meta.name }}-pricelist"
+      app: "{{ ansible_operator_meta.name }}-pricelist"
       tier: database
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: "{{ meta.name }}-pricelist"
+        app: "{{ ansible_operator_meta.name }}-pricelist"
         tier: database
     spec:
       containers:
@@ -44,28 +44,28 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
-        name: "{{ meta.name }}-pricelist-db"
+        name: "{{ ansible_operator_meta.name }}-pricelist-db"
         env:
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: "{{ meta.name }}-pricelist-creds"
+              name: "{{ ansible_operator_meta.name }}-pricelist-creds"
               key: database
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: "{{ meta.name }}-pricelist-creds"
+              name: "{{ ansible_operator_meta.name }}-pricelist-creds"
               key: dbpassword
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: "{{ meta.name }}-pricelist-creds"
+              name: "{{ ansible_operator_meta.name }}-pricelist-creds"
               key: dbuser
         resources: {}
         volumeMounts:
         - mountPath: /var/lib/mysql/data
-          name: "{{ meta.name }}-pricelist-db-store"
+          name: "{{ ansible_operator_meta.name }}-pricelist-db-store"
       volumes:
-      - name: "{{ meta.name }}-pricelist-db-store"
+      - name: "{{ ansible_operator_meta.name }}-pricelist-db-store"
         persistentVolumeClaim:
-          claimName: "{{ meta.name }}-db-pvc"
+          claimName: "{{ ansible_operator_meta.name }}-db-pvc"

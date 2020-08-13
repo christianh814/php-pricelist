@@ -1,0 +1,6 @@
+apiVersion: pricelist.cloud.chx/v1alpha1
+kind: Pricelist
+metadata:
+  name: pricelist-sample
+spec:
+  frontends: 1

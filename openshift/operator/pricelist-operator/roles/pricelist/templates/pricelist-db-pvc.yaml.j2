@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: "{{ meta.name }}-db-pvc"
-  namespace: "{{ meta.namespace }}"
+  name: "{{ ansible_operator_meta.name }}-db-pvc"
+  namespace: "{{ ansible_operator_meta.namespace }}"
 spec:
 {% if dbstorageclass is defined %}
   storageClassName: "{{ dbstorageclass }}"
