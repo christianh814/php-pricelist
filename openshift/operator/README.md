@@ -22,11 +22,13 @@ After a little bit the operator should be up and running
 
 ```shell
 # oc get pods
-NAME                                  READY   STATUS    RESTARTS   AGE
-pricelist-operator-6d4fd645d8-7tpcj   1/1     Running   0          22
+NAME                                                     READY   STATUS    RESTARTS   AGE
+pricelist-operator-controller-manager-765967786c-r566b   2/2     Running   0          13m
 ```
 
 This Operator is ready for action! Proceed to the [usage](#usage) section to deploy an instance of Pricelist
+
+> Note: To view the logs of the operator run `oc logs -f <pod name> -c manager`
 
 ## Usage
 
