@@ -10,7 +10,7 @@ In order to install this Operator you need user a user that has a cluster role o
 oc login -u system:admin
 ```
 
-The installation manifest has configuration for the [service acocunt](pricelist-operator/deploy/service_account.yaml), the [role](pricelist-operator/deploy/role.yaml), the [role binding](pricelist-operator/deploy/role_binding.yaml), the [custom resource definition](pricelist-operator/deploy/crds/pricelist.cloud.chx_pricelists_crd.yaml), and finally the [operator](pricelist-operator/deploy/operator.yaml) itself. 
+The installation manifest has configuration for the [role](install/pricelist-operator.yaml#L48-L72), the [role binding](install/pricelist-operator.yaml#L193-L205), the [custom resource definition](install/pricelist-operator.yaml#L8-L46), and finally the [operator](install/pricelist-operator.yaml#L248-L282) itself. 
 
 After inspecting these manifests, feel free to use the [installer manifest](install/pricelist-operator.yaml) to install this operator
 
